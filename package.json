@@ -1,0 +1,42 @@
+{
+  "name": "level-trie",
+  "description": "The TRIE data structure and search algorithm, on top of leveldb.",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/juliangruber/level-trie.git"
+  },
+  "homepage": "https://github.com/juliangruber/level-trie",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "dependencies": {
+    "shutup": "0.0.1",
+    "through": "~2.3.4"
+  },
+  "devDependencies": {
+    "tape": "~1.0.4",
+    "level-test": "~1.4.0"
+  },
+  "keywords": [
+    "trie",
+    "tree",
+    "leveldb",
+    "levelup",
+    "level",
+    "search",
+    "fuzzy",
+    "suffix-tree",
+    "suffix",
+    "radix-tree",
+    "radix",
+    "digital"
+  ],
+  "author": {
+    "name": "Julian Gruber",
+    "email": "mail@juliangruber.com",
+    "url": "http://juliangruber.com"
+  },
+  "license": "MIT"
+}
