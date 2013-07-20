@@ -1,4 +1,3 @@
-
 # level-trie
 
 The [TRIE](http://en.wikipedia.org/wiki/Trie) data structure and search
@@ -14,7 +13,7 @@ Store some words in a trie, then query them:
 
 ```js
 var level = require('level');
-var Trie = require('trie');
+var Trie = require('level-trie');
 var db = level(__dirname + '/db');
 
 var trie = new Trie(db);
