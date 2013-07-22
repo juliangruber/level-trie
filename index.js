@@ -9,13 +9,7 @@ function Trie (db) {
 }
 
 Trie.prototype.add = function (str, fn) {
-  this.db.batch(str.split('').map(function (_, i) {
-    return {
-      type: 'put',
-      key: str.substr(0, i+1),
-      value: str
-    };
-  }), fn);
+  this.db.put(str, ' ');
 };
 
 Trie.prototype.createSearchStream = function (key, opts) {
@@ -28,14 +22,14 @@ Trie.prototype.createSearchStream = function (key, opts) {
   // todo: use pull-streams
 
   function read (key) {
-    var vs = db.createValueStream({ start: key });
+    var ks = db.createKeyStream({ start: key });
     var inner = through(write, end);
 
     function write (str) {
       if (found.indexOf(str) != -1) return;
       found.push(str);
       inner.queue(str);
-      if (found.length == limit) vs.destroy();
+      if (found.length == limit) ks.destroy();
     }
     function end () {
       key.length > 0 && found.length < limit
@@ -43,7 +37,7 @@ Trie.prototype.createSearchStream = function (key, opts) {
         : outer.end();
     }
 
-    vs.pipe(inner).pipe(outer, { end: false });
+    ks.pipe(inner).pipe(outer, { end: false });
   }
   
   process.nextTick(function () {
