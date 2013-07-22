@@ -1,7 +1,7 @@
 {
   "name": "level-trie",
   "description": "The TRIE data structure and search algorithm, on top of leveldb.",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/juliangruber/level-trie.git"
