@@ -9,13 +9,10 @@ function Trie (db) {
 }
 
 Trie.prototype.add = function (str, fn) {
-  var rand = Math.random().toString(16).slice(2);
-  // todo: use monotonic-timestamp
-
   this.db.batch(str.split('').map(function (_, i) {
     return {
       type: 'put',
-      key: str.substr(0, i+1) + '!' + rand,
+      key: str.substr(0, i+1),
       value: str
     };
   }), fn);
