@@ -9,7 +9,7 @@ function Trie (db) {
 }
 
 Trie.prototype.add = function (str, fn) {
-  this.db.put(str, ' ');
+  this.db.put(str, ' ', fn);
 };
 
 Trie.prototype.createSearchStream = function (key, opts) {
