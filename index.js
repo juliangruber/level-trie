@@ -19,6 +19,7 @@ Trie.prototype.createSearchStream = function (key, opts) {
   var found = [];
   var limit = typeof opts.limit != 'undefined'? opts.limit : Infinity;
   var outer = shutup(through());
+  outer.writable = false;
   // todo: use pull-streams
 
   function read (key) {
