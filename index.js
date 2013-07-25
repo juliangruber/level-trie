@@ -1,5 +1,6 @@
 var through = require('through');
 var shutup = require('shutup');
+var liveStream = require('level-live-stream');
 
 module.exports = Trie;
 
@@ -21,25 +22,36 @@ Trie.prototype.createSearchStream = function (key, opts) {
   var outer = shutup(through());
   // todo: use pull-streams
 
-  function read (key) {
-    var ks = db.createKeyStream({ start: key });
+  function read (key, follow) {
+    var _opts = { start: key, values: false };
+    var ks = follow
+      ? liveStream(db, _opts)
+      : db.createReadStream(_opts);
     var inner = through(write, end);
 
     function write (str) {
+      if (str.type && str.type == 'put') str = str.key;
+      console.log('str', str)
       if (found.indexOf(str) != -1) return;
       found.push(str);
+      console.log('queueing', str)
       inner.queue(str);
       if (found.length == limit) ks.destroy();
     }
     function end () {
-      key.length > 0 && found.length < limit
-        ? read(key.substr(0, key.length - 1))
-        : outer.end();
+      if (found.length < limit && key.length > 0) {
+        read(key.substr(0, key.length - 1));
+        // keep listening for live updates
+        if (opts.follow) read(key, true);
+      } else {
+        outer.end();
+      }
     }
 
     ks.pipe(inner).pipe(outer, { end: false });
+    //outer.on('end', ks.destroy.bind(ks));
   }
-  
+
   process.nextTick(function () {
     read(key);
     // todo: or use setImmediate

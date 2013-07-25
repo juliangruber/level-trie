@@ -3,13 +3,14 @@ var Trie = require('..');
 var test = require('tape');
 var through = require('through');
 
-test('search stream', function (t) {
+test('follow', function (t) {
   t.plan(2);
   var trie = Trie(level());
 
   trie.add('bar');
 
-  var rs = trie.createSearchStream('fabulous');
+  var rs = trie.createSearchStream('fabulous', { follow: true });
+  rs.on('data', console.log.bind(null, 'got'))
 
   rs.once('data', function (str) {
     t.equal(str, 'bar');
