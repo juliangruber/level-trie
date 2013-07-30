@@ -27,9 +27,12 @@ Trie.prototype.createSearchStream = function (key, opts) {
 
     function write (str) {
       if (found.indexOf(str) != -1) return;
-      found.push(str);
-      inner.queue(str);
-      if (found.length == limit) ks.destroy();
+      if (found.length < limit) {
+        found.push(str);
+        inner.queue(str);
+      } else {
+        ks.destroy();
+      }
     }
     function end () {
       key.length > 0 && found.length < limit
