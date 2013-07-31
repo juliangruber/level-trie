@@ -20,7 +20,6 @@ Trie.prototype.createSearchStream = function (key, opts) {
   var found = [];
   var limit = typeof opts.limit != 'undefined'? opts.limit : Infinity;
   var outer = shutup(through());
-  // todo: use pull-streams
 
   function read (key, follow) {
     var _opts = { start: key, values: false };
@@ -34,7 +33,7 @@ Trie.prototype.createSearchStream = function (key, opts) {
       if (found.indexOf(str) != -1) return;
       found.push(str);
       inner.queue(str);
-      if (found.length == limit) ks.destroy();
+      if (found.length == limit && !opts.follow) ks.destroy();
     }
     function end () {
       if (found.length < limit && key.length > 0) {
