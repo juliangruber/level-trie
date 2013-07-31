@@ -36,21 +36,11 @@ Trie.prototype.createSearchStream = function (key, opts) {
       if (found.length == limit && !opts.follow) ks.destroy();
     }
     function end () {
-      if (!opts.follow) {
-        if (found.length < limit && key.length > 0) {
-          read(key.substr(0, key.length - 1));
-        } else {
-          outer.end();
-        }
-      } else {
-        if (!opts.limit || opts.limit && found.length < limit) read(key, true);
+      if (opts.follow) {
+        read(key, true);
       }
-
-
       if (found.length < limit && key.length > 0) {
         read(key.substr(0, key.length - 1));
-      } else if (found.length < limit && opts.follow) {
-        read(key, true);
       } else if (!opts.follow) {
         outer.end();
       }
