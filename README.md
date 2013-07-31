@@ -52,7 +52,11 @@ the `limit` option.
 
 Possible options are:
 
-* `limit`: Emit max. x entries
+* `limit`: Emit max. x entries.
+* `follow`: Keep the stream open and emit new data that comes in. When used in
+conjunction with `limit` the last emitted historical entry will define the
+border of what a new entry that's emitted needs to fit in, e.g. it mustn't be
+further away from the search string.
 
 ## Installation
 
