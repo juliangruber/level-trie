@@ -31,10 +31,8 @@ Trie.prototype.createSearchStream = function (key, opts) {
 
     function write (str) {
       if (str.type && str.type == 'put') str = str.key;
-      console.log('str', str)
       if (found.indexOf(str) != -1) return;
       found.push(str);
-      console.log('queueing', str)
       inner.queue(str);
       if (found.length == limit) ks.destroy();
     }
@@ -43,13 +41,13 @@ Trie.prototype.createSearchStream = function (key, opts) {
         read(key.substr(0, key.length - 1));
         // keep listening for live updates
         if (opts.follow) read(key, true);
-      } else {
+      } else if (!opts.follow) {
         outer.end();
       }
     }
 
     ks.pipe(inner).pipe(outer, { end: false });
-    //outer.on('end', ks.destroy.bind(ks));
+    outer.on('end', ks.destroy.bind(ks));
   }
 
   process.nextTick(function () {
