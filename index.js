@@ -22,7 +22,7 @@ Trie.prototype.createSearchStream = function (key, opts) {
   var outer = shutup(through());
 
   function read (key, follow) {
-    var _opts = { start: key, values: false };
+    var _opts = { start: key, values: false, old: false };
     var ks = follow
       ? liveStream(db, _opts)
       : db.createReadStream(_opts);
@@ -35,11 +35,15 @@ Trie.prototype.createSearchStream = function (key, opts) {
       inner.queue(str);
       if (found.length == limit && !opts.follow) ks.destroy();
     }
+
+    // only called when !follow
     function end () {
       if (opts.follow) {
+        // keep listening for new data
         read(key, true);
       }
-      if (found.length < limit && key.length > 0) {
+      if (key.length > 0 && found.length < limit) {
+        // go further up the tree for more data
         read(key.substr(0, key.length - 1));
       } else if (!opts.follow) {
         outer.end();
