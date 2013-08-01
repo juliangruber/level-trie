@@ -33,7 +33,7 @@ Trie.prototype.createSearchStream = function (key, opts) {
       if (found.indexOf(str) != -1) return;
       found.push(str);
       inner.queue(str);
-      if (found.length == limit && !opts.follow) ks.destroy();
+      if (found.length == limit && !follow) ks.destroy();
     }
 
     // only called when !follow
