@@ -13,6 +13,10 @@ Trie.prototype.add = function (str, fn) {
   this.db.put(str, ' ', fn);
 };
 
+Trie.prototype.remove = function (str, fn) {
+  this.db.del(str, fn);
+};
+
 Trie.prototype.createSearchStream = function (key, opts) {
   if (!opts) opts = {};
 

@@ -39,10 +39,14 @@ If you don't want to use a whole database for the trie, pass in a
 database's section using
 [level-sublevel](https://github.com/dominictarr/level-sublevel).
 
-### Trie#add(string)
+### Trie#add(string[, fn])
 
 Add `string` to the trie. This causes a batch operation with as many puts as
 characters in `string` + 1.
+
+### Trie#remove(string[, fn])
+
+Remove `string` from the trie.
 
 ### Trie#createSearchStream(string, options)
 
