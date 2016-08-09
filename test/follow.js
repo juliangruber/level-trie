@@ -6,7 +6,7 @@ var through = require('through');
 test('follow', function (t) {
   t.plan(2);
 
-  var trie = Trie(level());
+  var trie = Trie(level('follow'));
   trie.add('bar');
   var rs = trie.createSearchStream('fabulous', { follow: true });
 

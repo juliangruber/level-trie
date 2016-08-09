@@ -5,7 +5,7 @@ var through = require('through');
 
 test('search stream', function (t) {
   t.plan(1);
-  var trie = Trie(level());
+  var trie = Trie(level('search-stream'));
 
   trie.add('foo');
   trie.add('bar');

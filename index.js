@@ -1,4 +1,4 @@
-var through = require('through');
+var through = require('through2');
 var shutup = require('shutup');
 var liveStream = require('level-live-stream');
 
@@ -23,25 +23,29 @@ Trie.prototype.createSearchStream = function (key, opts) {
   var db = this.db;
   var found = [];
   var limit = typeof opts.limit != 'undefined'? opts.limit : Infinity;
-  var outer = shutup(through());
+  var outer = shutup(through.obj());
 
   function read (key, follow) {
-    var _opts = { start: key, values: false, old: false };
+    var _opts = { start: key, values: false, old: true };
     var ks = follow
       ? liveStream(db, _opts)
       : db.createReadStream(_opts);
-    var inner = through(write, end);
+    var inner = through.obj(write, end);
 
-    function write (str) {
+    function write (str, _, cb) {
       if (str.type && str.type == 'put') str = str.key;
-      if (found.indexOf(str) != -1) return;
+      if (found.indexOf(str) != -1) return cb();
       found.push(str);
-      inner.queue(str);
-      if (found.length == limit && !follow) ks.destroy();
+      inner.push(str);
+      if (found.length == limit && !follow) {
+        ks.destroy();
+        ks.push(null);
+      }
+      cb()
     }
 
     // only called when !follow
-    function end () {
+    function end (cb) {
       if (opts.follow) {
         // keep listening for new data
         read(key, true);
@@ -52,6 +56,7 @@ Trie.prototype.createSearchStream = function (key, opts) {
       } else if (!opts.follow) {
         outer.end();
       }
+      cb()
     }
 
     ks.pipe(inner).pipe(outer, { end: false });
@@ -60,7 +65,6 @@ Trie.prototype.createSearchStream = function (key, opts) {
 
   process.nextTick(function () {
     read(key);
-    // todo: or use setImmediate
   });
 
   return outer;

@@ -6,7 +6,7 @@ var through = require('through');
 test('follow with limit 2', function (t) {
   t.plan(3);
 
-  var trie = Trie(level());
+  var trie = Trie(level('follow-limit-2'));
   trie.add('bar');
   var rs = trie.createSearchStream('fabulous', {
     follow: true,

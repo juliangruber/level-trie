@@ -5,7 +5,7 @@ var through = require('through');
 
 test('remove', function (t) {
   t.plan(4);
-  var trie = Trie(level());
+  var trie = Trie(level('remove'));
 
   trie.add('foo', function (err) {
     t.error(err);

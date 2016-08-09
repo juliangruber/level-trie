@@ -5,7 +5,7 @@ var through = require('through');
 
 test('deterministic', function (t) {
   t.plan(1);
-  var trie = Trie(level());
+  var trie = Trie(level('deterministic'));
 
   trie.add('foo');
   trie.add('foo');

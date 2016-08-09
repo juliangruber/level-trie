@@ -5,7 +5,7 @@ var through = require('through');
 
 test('limit', function (t) {
   t.plan(1);
-  var trie = Trie(level());
+  var trie = Trie(level('limit'));
 
   trie.add('foo');
   trie.add('bar');
