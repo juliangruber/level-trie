@@ -1,7 +1,7 @@
 var level = require('level-test')({ mem: true });
 var Trie = require('..');
 var test = require('tape');
-var through = require('through');
+var through = require('through2');
 
 test('deterministic', function (t) {
   t.plan(1);
@@ -12,8 +12,14 @@ test('deterministic', function (t) {
 
   var res = [];
   trie.createSearchStream('foo')
-    .pipe(through(write, end));
+    .pipe(through.obj(write, end));
 
-  function write (str) { res.push(str) }
-  function end () { t.deepEqual(res, ['foo']) }
+  function write (str, _, cb) {
+    res.push(str);
+    cb();
+  }
+  function end (cb) {
+    t.deepEqual(res, ['foo']);
+    cb();
+  }
 });

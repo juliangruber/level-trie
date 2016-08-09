@@ -1,7 +1,6 @@
 var level = require('level-test')({ mem: true });
 var Trie = require('..');
 var test = require('tape');
-var through = require('through');
 
 test('follow with limit 2', function (t) {
   t.plan(3);
