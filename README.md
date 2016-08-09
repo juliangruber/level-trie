@@ -6,8 +6,6 @@ algorithm, on top of [leveldb](https://github.com/rvagg/node-levelup).
 [![build status](https://secure.travis-ci.org/juliangruber/level-trie.svg)](http://travis-ci.org/juliangruber/level-trie)
 [![downloads](https://img.shields.io/npm/dm/level-trie.svg)](https://www.npmjs.org/package/level-trie)
 
-[![testling badge](https://ci.testling.com/juliangruber/level-trie.png)](https://ci.testling.com/juliangruber/level-trie)
-
 ## Usage
 
 Store some words in a trie, then query them:
