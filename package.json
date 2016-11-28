@@ -14,7 +14,7 @@
   "dependencies": {
     "level-live-stream": "^1.4.11",
     "shutup": "0.0.1",
-    "through2": "^2.0.1"
+    "through2": "2.0.1"
   },
   "devDependencies": {
     "level-test": "^2.0.2",
