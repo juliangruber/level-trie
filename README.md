@@ -40,8 +40,7 @@ database's section using
 
 ### Trie#add(string[, fn])
 
-Add `string` to the trie. This causes a batch operation with as many puts as
-characters in `string` + 1.
+Add `string` to the trie.
 
 ### Trie#remove(string[, fn])
 
